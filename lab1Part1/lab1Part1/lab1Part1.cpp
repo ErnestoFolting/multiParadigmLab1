@@ -27,6 +27,7 @@ int main()
     int currentNumberWords = 0;
     string* allWords = new string[maxNumberWords];
     int* allNumbers = new int[maxNumberWords];
+    int numberOfWordsToDisplay = 25;
 
     string temp = "";
 wordFromFile:
@@ -51,7 +52,6 @@ wordFromFile:
             i++;
             goto checkStop;
         }
-//
         i = 0;
     countDuplication:
         if (i < currentNumberWords) {
@@ -67,11 +67,29 @@ wordFromFile:
         allNumbers[currentNumberWords] = 1;
         currentNumberWords++;
         temp = "";
+        if (currentNumberWords + 1 == maxNumberWords) {
+            maxNumberWords += 5; //expand to 5 extra words 
+            //initialize new arrays
+            string* tempWords = new string[maxNumberWords];
+            int* tempNumbers = new int[maxNumberWords];
+            i = 0;
+        newArrays:
+            if (i < currentNumberWords) {
+                tempWords[i] = allWords[i];
+                tempNumbers[i] = allNumbers[i];
+                i++;
+                goto newArrays;
+            }
+            delete[] allWords;
+            delete[] allNumbers;
+            allWords = tempWords;
+            allNumbers = tempNumbers;
+        }
         goto wordFromFile;
     }
 end:
     inFile.close();
-    for (int i = 0; i < 5; i++) {
-        cout << allWords[i] << endl;
+    for (int i = 0; i < currentNumberWords; i++) {
+        cout << allWords[i] << " - " << allNumbers[i] << endl;
     }
 }
