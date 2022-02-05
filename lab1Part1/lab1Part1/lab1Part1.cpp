@@ -4,6 +4,10 @@
 using namespace std;
 int main()
 {
+    int expectedWordsToShow;
+    cout << "How many words you want to show?\n";
+    cin >> expectedWordsToShow;
+
     int stopWordsSize = 15;
     string* stopWords = new string[stopWordsSize];
     stopWords[0] = "in";
@@ -110,9 +114,23 @@ wordsReadingEnd:
         i++;
         goto externalCycle;
     }
-
-
-    for (int i = 0; i < currentNumberWords; i++) {
-        cout << allWords[i] << " - " << allNumbers[i] << endl;
+    int wordsToShow;
+    if (expectedWordsToShow > currentNumberWords) {
+        wordsToShow = currentNumberWords;
     }
+    else {
+        wordsToShow = expectedWordsToShow;
+    }
+    i = 0;
+    ofstream outFile("output.txt");
+output:
+    if (i < wordsToShow) {
+        cout << allWords[i] << " - " << allNumbers[i] << endl;
+        outFile << allWords[i] << " - " << allNumbers[i] << endl;
+        i++;
+        goto output;
+    }
+    outFile.close();
+    delete[] allWords;
+    delete[] allNumbers;
 }
