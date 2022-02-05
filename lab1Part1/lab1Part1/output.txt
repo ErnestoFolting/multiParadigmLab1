@@ -1,12 +1,4 @@
-check3  - 3
-live  - 2
-mostly  - 2
-white  - 1
-tigers  - 1
-india  - 1
-wild  - 1
-lions  - 1
-africa  - 1
-check1  - 1
-check2  - 1
-check4  - 1
+please  - 1
+sir  - 1
+qq  - 1
+q-q  - 1
