@@ -4,7 +4,8 @@
 using namespace std;
 int main()
 {
-    string* stopWords = new string[15];
+    int stopWordsSize = 15;
+    string* stopWords = new string[stopWordsSize];
     stopWords[0] = "in";
     stopWords[1] = "on";
     stopWords[2] = "up";
@@ -20,6 +21,30 @@ int main()
     stopWords[12] = "did";
     stopWords[13] = "can";
     stopWords[14] = "for";
-    int i = 0;
-    int size = 15;
+
+    ifstream inFile("input.txt");
+    int maxNumberWords = 10;
+    int currentNumberWords = 0;
+    string* allWords = new string[maxNumberWords];
+    int* allNumbers = new int[maxNumberWords];
+
+    string temp = "";
+wordFromFile:
+    inFile >> temp;
+    if (temp == "") {
+        goto end;
+    }
+    else {
+        temp += " ";
+        int i = 0;
+    normalization:
+        if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32;
+        i++;
+        if (temp[i] != ' ') goto normalization;
+        cout << temp << endl;
+        temp = "";
+        goto wordFromFile;
+    }
+end:
+    inFile.close();
 }
