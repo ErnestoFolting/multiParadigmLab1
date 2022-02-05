@@ -51,9 +51,27 @@ wordFromFile:
             i++;
             goto checkStop;
         }
-        cout << temp << endl;
+//
+        i = 0;
+    countDuplication:
+        if (i < currentNumberWords) {
+            if (allWords[i] == temp) {
+                allNumbers[i] += 1;
+                temp = "";
+                goto wordFromFile;
+            }
+            i++;
+            goto countDuplication;
+        }
+        allWords[currentNumberWords] = temp;
+        allNumbers[currentNumberWords] = 1;
+        currentNumberWords++;
+        temp = "";
         goto wordFromFile;
     }
 end:
     inFile.close();
+    for (int i = 0; i < 5; i++) {
+        cout << allWords[i] << endl;
+    }
 }
