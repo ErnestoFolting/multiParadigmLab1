@@ -41,8 +41,17 @@ wordFromFile:
         if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32;
         i++;
         if (temp[i] != ' ') goto normalization;
+        i = 0;
+    checkStop:
+        if (i < stopWordsSize) {
+            if ((stopWords[i]+' ') == temp) {
+                temp = "";
+                goto wordFromFile;
+            }
+            i++;
+            goto checkStop;
+        }
         cout << temp << endl;
-        temp = "";
         goto wordFromFile;
     }
 end:
