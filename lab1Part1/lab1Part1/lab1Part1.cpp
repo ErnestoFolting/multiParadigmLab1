@@ -33,7 +33,7 @@ int main()
 wordFromFile:
     inFile >> temp;
     if (temp == "") {
-        goto end;
+        goto wordsReadingEnd;
     }
     else {
         temp += " ";
@@ -87,8 +87,31 @@ wordFromFile:
         }
         goto wordFromFile;
     }
-end:
+wordsReadingEnd:
     inFile.close();
+    //bubble sort
+    int i = 0;
+    externalCycle:
+    if (i < currentNumberWords - 1) {
+        int j = 0;
+    internalCycle:
+        if (j < currentNumberWords - i - 1) {
+            if (allNumbers[j] < allNumbers[j + 1]) {
+                int tempNumber = allNumbers[j];
+                allNumbers[j] = allNumbers[j + 1];
+                allNumbers[j + 1] = tempNumber;
+                string tempWord = allWords[j];
+                allWords[j] = allWords[j + 1];
+                allWords[j + 1] = tempWord;
+            }
+            j++;
+            goto internalCycle;
+        }
+        i++;
+        goto externalCycle;
+    }
+
+
     for (int i = 0; i < currentNumberWords; i++) {
         cout << allWords[i] << " - " << allNumbers[i] << endl;
     }
