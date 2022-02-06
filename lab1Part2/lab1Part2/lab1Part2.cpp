@@ -42,15 +42,15 @@ wordFromFile:
     if (inFile.peek() == '\n') {
         lineNumber++;
         inFile.get();
-        if (lineNumber / 45 != pageNumber) {  //if the new page
-            pageNumber++;
-            int i = 0;
-        newPage:
-            wasOnThisPage[i] = false;
-            i++;
-            if (i < maxNumberWords)goto newPage;
-        }
-        
+        goto wordFromFile;
+    }
+    if (lineNumber / 45 != pageNumber) {  //if the new page
+        pageNumber++;
+        int i = 0;
+    newPage:
+        wasOnThisPage[i] = false;
+        i++;
+        if (i < maxNumberWords)goto newPage;
     }
     string temp = "";
     inFile >> temp;
