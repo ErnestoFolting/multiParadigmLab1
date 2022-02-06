@@ -103,7 +103,7 @@ wordFromFile:
                     tempPageNumber /= 10;
                     goto toString;
                 }
-                allPages[i] += tempStr + ", ";
+                allPages[i] += ", " + tempStr;                
             }
             wasOnThisPage[i] = true;
             temp = "";
@@ -111,10 +111,10 @@ wordFromFile:
         }
         i++;
         if (i < currentNumberWords)goto countDuplication;
+        tempStr = "";
         wasOnThisPage[currentNumberWords] = true;
         allWords[currentNumberWords] = temp;
         numberOfPages[currentNumberWords] = 1;
-        tempStr = "";
         int tempPageNumber = pageNumber + 1;
     toString2:
         if (tempPageNumber != 0) {
@@ -123,7 +123,7 @@ wordFromFile:
             tempPageNumber /= 10;
             goto toString2;
         }
-        allPages[currentNumberWords] += tempStr + ", ";
+        allPages[currentNumberWords] += tempStr;
         currentNumberWords++ ;
         if (currentNumberWords == maxNumberWords) {
             maxNumberWords += 5; //expand to 5 extra words 
