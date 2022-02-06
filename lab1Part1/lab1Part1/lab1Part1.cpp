@@ -8,7 +8,7 @@ int main()
     cout << "How many words you want to show?\n";
     cin >> expectedWordsToShow;
 
-    int stopWordsSize = 15;
+    int stopWordsSize = 18;
     string* stopWords = new string[stopWordsSize];
     stopWords[0] = "in";
     stopWords[1] = "on";
@@ -25,6 +25,9 @@ int main()
     stopWords[12] = "did";
     stopWords[13] = "can";
     stopWords[14] = "for";
+    stopWords[15] = "to";
+    stopWords[16] = "and";
+    stopWords[17] = "the";
 
     ifstream inFile("input.txt");
     int maxNumberWords = 10;
@@ -46,6 +49,21 @@ wordFromFile:
         if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32;
         i++;
         if (temp[i] != ' ') goto normalization;
+        i = 0;
+        string buffer = "";
+        bool afterChar = false;
+    deleteSigns:
+        if (temp[i] >= 97 && temp[i] <= 122 || (temp[i] == '-' || temp[i] == '\'' || temp[i] == '`') && (temp[i + 1] >= 97 && temp[i + 1] <= 122) && afterChar) {
+            buffer += temp[i];
+            afterChar = true;
+        }
+        i++;
+        if (temp[i] != ' ') goto deleteSigns;
+        if (buffer == "") {
+            temp = "";
+            goto wordFromFile;
+        }
+        temp = buffer + " ";
         i = 0;
     checkStop:
         if (i < stopWordsSize) {
