@@ -103,9 +103,9 @@ wordFromFile:
                     tempPageNumber /= 10;
                     goto toString;
                 }
+                allPages[i] += tempStr + ", ";
             }
             wasOnThisPage[i] = true;
-            allPages[i] += tempStr + ", ";
             temp = "";
             goto wordFromFile;
         }
