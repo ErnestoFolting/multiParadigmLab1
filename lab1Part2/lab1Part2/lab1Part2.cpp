@@ -196,11 +196,17 @@ externalCycle:
         i++;
         goto externalCycle;
     }
-    for (int i = 0; i < currentNumberWords; i++) {
-        if (numberOfPages[i] <= 100) {
-            cout << allWords[i] << " - " << allPages[i] << endl;
-            outFile << allWords[i] << " - " << allPages[i] << endl;
-        }
+    i = 0;
+output:
+    if (numberOfPages[i] <= 100) {
+        cout << allWords[i] << " - " << allPages[i] << endl;
+        outFile << allWords[i] << " - " << allPages[i] << endl;
     }
+    i++;
+    if (i < currentNumberWords) goto output;
+    delete[] allWords;
+    delete[] allPages;
+    delete[] numberOfPages;
+    delete[] wasOnThisPage;
     outFile.close();
 }
