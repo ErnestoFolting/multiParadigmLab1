@@ -156,8 +156,51 @@ wordFromFile:
     }
 wordsReadingEnd:
     inFile.close();
-    for (int i = 0; i < currentNumberWords; i++) {
-        cout << allWords[i] << " - " << allPages[i] << endl;
+    ofstream outFile("output.txt");
+    //bubble sort
+    int i = 0;
+externalCycle:
+    if (i < currentNumberWords) {
+        int j = i + 1;
+    internalCycle:
+        if (j < currentNumberWords) {
+            bool swap = 0;
+            int k = 0;
+        checkSwap:
+            if (allWords[i][k] != ' ' && allWords[j][k] != ' ') {
+                if (allWords[i][k] == allWords[j][k]) {
+                    k++;
+                    goto checkSwap;
+                }
+                else {
+                    if (allWords[i][k] > allWords[j][k]) swap = 1;
+                }
+            }
+            else {
+                if (allWords[i][k] != ' ') swap = 1;
+            }
+            if (swap) {
+                string tempWord = allWords[i];
+                allWords[i] = allWords[j];
+                allWords[j] = tempWord;
+                string tempPages = allPages[i];
+                allPages[i] = allPages[j];
+                allPages[j] = tempPages;
+                int tempNumber = numberOfPages[i];
+                numberOfPages[i] = numberOfPages[j];
+                numberOfPages[j] = tempNumber;
+            }
+            j++;
+            goto internalCycle;
+        }
+        i++;
+        goto externalCycle;
     }
+    for (int i = 0; i < currentNumberWords; i++) {
+        if (numberOfPages[i] <= 100) {
+            cout << allWords[i] << " - " << allPages[i] << endl;
+            outFile << allWords[i] << " - " << allPages[i] << endl;
+        }
+    }
+    outFile.close();
 }
-
