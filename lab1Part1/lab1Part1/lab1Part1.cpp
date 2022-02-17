@@ -9,7 +9,7 @@ int main()
     cin >> expectedWordsToShow;
 
     int stopWordsSize = 18;
-    string* stopWords = new string[stopWordsSize];
+    string* stopWords = new string[stopWordsSize]; //list of stop words 
     stopWords[0] = "in";
     stopWords[1] = "on";
     stopWords[2] = "up";
@@ -32,21 +32,21 @@ int main()
     ifstream inFile("input.txt");
     int maxNumberWords = 10;
     int currentNumberWords = 0;
-    string* allWords = new string[maxNumberWords];
-    int* allNumbers = new int[maxNumberWords];
+    string* allWords = new string[maxNumberWords]; //list of all words
+    int* allNumbers = new int[maxNumberWords]; //list of all repetitions of words
     int numberOfWordsToDisplay = 25;
 
     string temp = "";
 wordFromFile:
     inFile >> temp;
-    if (temp == "") {
+    if (temp == "") { //if it is end of file
         goto wordsReadingEnd;
     }
     else {
         temp += " ";
         int i = 0;
     normalization:
-        if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32;
+        if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32; //make symbol lower if it is upper case
         i++;
         if (temp[i] != ' ') goto normalization;
         i = 0;
@@ -65,7 +65,7 @@ wordFromFile:
         }
         temp = buffer + " ";
         i = 0;
-    checkStop:
+    checkStop: //check if it is stop word
         if (i < stopWordsSize) {
             if ((stopWords[i]+' ') == temp) {
                 temp = "";
@@ -89,7 +89,7 @@ wordFromFile:
         allNumbers[currentNumberWords] = 1;
         currentNumberWords++;
         temp = "";
-        if (currentNumberWords + 1 == maxNumberWords) {
+        if (currentNumberWords + 1 == maxNumberWords) { //check if massive is overflow
             maxNumberWords += 5; //expand to 5 extra words 
             //initialize new arrays
             string* tempWords = new string[maxNumberWords];
@@ -111,9 +111,8 @@ wordFromFile:
     }
 wordsReadingEnd:
     inFile.close();
-    //bubble sort
     int i = 0;
-    externalCycle:
+    externalCycle: //bubble sort
     if (i < currentNumberWords - 1) {
         int j = 0;
     internalCycle:
@@ -133,7 +132,7 @@ wordsReadingEnd:
         goto externalCycle;
     }
     int wordsToShow;
-    if (expectedWordsToShow > currentNumberWords) {
+    if (expectedWordsToShow > currentNumberWords) { //choose how many words we have to output
         wordsToShow = currentNumberWords;
     }
     else {
