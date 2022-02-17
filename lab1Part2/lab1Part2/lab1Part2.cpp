@@ -5,10 +5,10 @@ using namespace std;
 int main()
 {
 	string fileName;
-	cout << "Input the file name to index\n";
+	cout << "Input the file name to index\n"; 
 	cin >> fileName;
     int stopWordsSize = 18;
-    string* stopWords = new string[stopWordsSize];
+    string* stopWords = new string[stopWordsSize]; //list of stop words
     stopWords[0] = "in";
     stopWords[1] = "on";
     stopWords[2] = "up";
@@ -31,15 +31,15 @@ int main()
     ifstream inFile(fileName);
     int maxNumberWords = 10;
     int currentNumberWords = 0;
-    string* allWords = new string[maxNumberWords];
-    string* allPages = new string[maxNumberWords];
-    int* numberOfPages = new int[maxNumberWords];
-    bool* wasOnThisPage = new bool[maxNumberWords];
+    string* allWords = new string[maxNumberWords]; //list of all words
+    string* allPages = new string[maxNumberWords]; //list with pages where the word is
+    int* numberOfPages = new int[maxNumberWords];  //list with numbers of repetitions of words
+    bool* wasOnThisPage = new bool[maxNumberWords]; //bool list if the word was on current page
     int lineNumber = 0;
     int pageNumber = 0;
 
 wordFromFile:
-    if (inFile.peek() == '\n') {
+    if (inFile.peek() == '\n') { //check if it is end of line
         lineNumber++;
         inFile.get();
         goto wordFromFile;
@@ -61,13 +61,13 @@ wordFromFile:
         temp += " ";
         int i = 0;
     normalization:
-        if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32;
+        if (temp[i] >= 65 && temp[i] <= 90)temp[i] += 32; //if it is an upper case - make it lower
         i++;
         if (temp[i] != ' ') goto normalization;
         i = 0;
         string buffer = "";
         bool afterChar = false;
-    deleteSigns:
+    deleteSigns: //delete the unnecessary signs from words
         if (temp[i] >= 97 && temp[i] <= 122 || (temp[i] == '-' || temp[i] == '\'' || temp[i] == '`') && (temp[i + 1] >= 97 && temp[i + 1] <= 122) && afterChar) {
             buffer += temp[i];
             afterChar = true;
@@ -80,7 +80,7 @@ wordFromFile:
         }
         temp = buffer + " ";
         i = 0;
-    checkStop:
+    checkStop: //check if it is a stop word
         if (i < stopWordsSize) {
             if ((stopWords[i] + ' ') == temp) {
                 temp = "";
@@ -125,7 +125,7 @@ wordFromFile:
         }
         allPages[currentNumberWords] += tempStr;
         currentNumberWords++ ;
-        if (currentNumberWords == maxNumberWords) {
+        if (currentNumberWords == maxNumberWords) { //if the massive is overflow 
             maxNumberWords += 5; //expand to 5 extra words 
             //initialize new arrays
             string* tempWords = new string[maxNumberWords];
@@ -157,9 +157,8 @@ wordFromFile:
 wordsReadingEnd:
     inFile.close();
     ofstream outFile("output.txt");
-    //bubble sort
     int i = 0;
-externalCycle:
+externalCycle:  //bubble sort
     if (i < currentNumberWords) {
         int j = i + 1;
     internalCycle:
@@ -198,7 +197,7 @@ externalCycle:
     }
     i = 0;
 output:
-    if (numberOfPages[i] <= 100) {
+    if (numberOfPages[i] <= 100) { 
         cout << allWords[i] << " - " << allPages[i] << endl;
         outFile << allWords[i] << " - " << allPages[i] << endl;
     }
